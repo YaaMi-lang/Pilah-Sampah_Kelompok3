@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta Viewport wajib agar tampilan otomatis menyesuaikan layar HP & Tablet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PilahSampah — Portal Bank Sampah Kec. Pasawahan</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Menghubungkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- =======================================================================
+         1. HEADER & NAVIGASI UTAMA (Sticky di bagian atas layar)
+         ======================================================================= -->
+    <header class="top-navbar">
+        <div class="container nav-inner">
+            <!-- Logo Brand -->
+            <a href="#beranda" class="brand">
+                <span class="brand-icon">♻️</span>
+                <span>PilahSampah</span>
+            </a>
+
+            <!-- Menu Navigasi Tengah (Info Jam & Desa berada di antara Panduan dan Riwayat) -->
+            <nav class="nav-links" aria-label="Navigasi Utama">
+                <a href="#beranda" class="nav-item active">Beranda</a>
+                <a href="#tentang" class="nav-item">Tentang</a>
+                <a href="#harga" class="nav-item">Harga</a>
+                <a href="#panduan" class="nav-item">Panduan</a>
+                <button type="button" class="nav-item" onclick="openScheduleModal()">Info Jam & Desa</button>
+                <button type="button" class="nav-item" onclick="openHistoryDrawer()">
+                    Riwayat <span class="badge-count hidden" id="navHistoryCount">0</span>
+                </button>
+            </nav>
+
+            <!-- Area Akun / Tombol Login di Kanan Atas -->
+            <div class="nav-auth" id="navAuthArea">
+                <button type="button" class="btn-auth-pill" onclick="openAuthModal('login')">
+                    Masuk / Daftar <span class="arrow-circle">↗</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =======================================================================
+         2. KONTEN UTAMA (MAIN)
+         ======================================================================= -->
+    <main class="container">
+
+        <!-- BAGIAN 1: HERO SECTION (Layar Pertama) -->
+        <section id="beranda" class="hero-section">
+            <div class="hero-card">
+                <div class="hero-grid">
+                    <!-- Kolom Kiri: Teks Utama & Tombol Aksi -->
+                    <div class="hero-left">
+                        <div class="hero-tags">
+                            <span class="tag-outline">Daur ulang</span>
+                            <span class="tag-outline">Bank Sampah</span>
+                            <span class="tag-outline">Jemput di rumah</span>
+                        </div>
+
+                        <h1 class="hero-title">
+                            Pilah sampahmu,<br>
+                            <span class="serif-italic">jadi rupiah</span><br>
+                            sekarang
+                        </h1>
+
+                        <p class="hero-desc">
+                            Botol plastik, kardus, dan minyak jelantah punya nilai. Pelajari cara memilahnya, cek harga per kilogram, lalu minta jemput ke rumah.
+                        </p>
+
+                        <div class="hero-cta-group">
+                            <a href="#jemput" class="btn-lime-pill">
+                                Jual sampah <span class="dark-circle-arrow">↗</span>
+                            </a>
+                            <a href="#harga" class="link-underlined">Lihat harga ↗</a>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: Tabel Ringkas Harga Hari Ini (Glassmorphism) -->
+                    <aside class="hero-price-box" aria-label="Ringkasan Harga Hari Ini">
+                        <h3>Harga hari ini</h3>
+                        <ul class="price-mini-list">
+                            <li><span>Botol PET</span> <strong>Rp4.500/kg</strong></li>
+                            <li><span>Kardus</span> <strong>Rp2.800/kg</strong></li>
+                            <li><span>Kaleng aluminium</span> <strong>Rp14.000/kg</strong></li>
+                            <li><span>Minyak jelantah</span> <strong>Rp6.000/L</strong></li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- Baris Mitra Komunitas -->
+            <div class="partner-strip">
+                <span>Bank Sampah Induk</span>
+                <span>Karang Taruna</span>
+                <span>PKK Kecamatan Pasawahan</span>
+                <span>RW Hijau</span>
+                <span>Dinas Lingkungan</span>
+            </div>
+        </section>
+
+        <!-- BAGIAN 2: TENTANG KAMI -->
+        <section id="tentang" class="section-block">
+            <div class="section-label">
+                <span class="dot-green"></span> Tentang kami
+            </div>
+
+            <div class="about-layout">
+                <div class="about-leaf-card" aria-hidden="true">🌿</div>
+                <div class="about-text-content">
+                    <p>
+                        PilahSampah membantu warga Kecamatan Pasawahan menyalurkan sampah daur ulang ke Bank Sampah terdekat: tahu cara memilah, tahu harga per kilogram, dan tahu kapan petugas datang menjemput.
+                    </p>
+                    <a href="#jemput" class="btn-lime-pill">
+                        Minta jemput <span class="dark-circle-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 3: PANDUAN 3 LANGKAH & BANNER JADWAL DESA -->
+        <section id="panduan" class="section-block">
+            <div class="section-header-split">
+                <div>
+                    <div class="section-label"><span class="dot-green"></span> Panduan</div>
+                    <h2 class="section-title">Memilah dalam 3 langkah, <span class="serif-italic">mudah</span></h2>
+                </div>
+                <p class="section-subnote">Ikuti urutan ini sebelum sampah ditimbang.</p>
+            </div>
+
+            <!-- 3 Kartu Langkah -->
+            <div class="steps-flow">
+                <article class="step-card">
+                    <span class="step-badge">Langkah 1</span>
+                    <h3>Kumpulkan Sampah Kering</h3>
+                    <p>Pisahkan botol plastik, kardus, buku bekas, kaleng, dan minyak goreng bekas ke wadah terpisah agar tidak bercampur sampah basah dapur.</p>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">→</div>
+
+                <article class="step-card">
+                    <span class="step-badge">Langkah 2</span>
+                    <h3>Bersihkan & Keringkan</h3>
+                    <p>Bilas sebentar botol atau kaleng bekas minuman, lipat kardus agar rapi, dan saring minyak jelantah dari sisa gorengan.</p>
+                </article>
+
+                <div class="step-arrow" aria-hidden="true">→</div>
+
+                <article class="step-card">
+                    <span class="step-badge">Langkah 3</span>
+                    <h3>Timbang & Panggil Petugas</h3>
+                    <p>Kumpulkan minimal 3 kg di rumah, hitung perkiraan uangnya di bawah, lalu isi formulir agar petugas datang menjemput.</p>
+                </article>
+            </div>
+
+            <!-- Banner Hijau Jadwal Jemput Per Desa + Tombol Detail -->
+            <div class="schedule-banner">
+                <div class="schedule-banner-left">
+                    <h3>Jadwal jemput per desa</h3>
+                    <p>Armada beroperasi pukul 10.00 – 16.00 WIB sesuai jadwal desa di Kec. Pasawahan.</p>
+                    <button type="button" class="btn-detail-schedule" onclick="openScheduleModal()">
+                        Detail jadwal penjemputan <span>↗</span>
+                    </button>
+                </div>
+
+                <!-- Grid 2x2 Minimalis -->
+                <div class="schedule-grid-boxes">
+                    <div class="area-box" onclick="openScheduleModal()">
+                        <strong>Paniis • Cibuntu • Cirea</strong>
+                        <span>Senin & Selasa</span>
+                    </div>
+                    <div class="area-box" onclick="openScheduleModal()">
+                        <strong>Singkup • Pasawahan • Padamatang</strong>
+                        <span>Rabu & Kamis</span>
+                    </div>
+                    <div class="area-box" onclick="openScheduleModal()">
+                        <strong>Ciwiru • Kaduela • Cidahu</strong>
+                        <span>Jumat & Sabtu</span>
+                    </div>
+                    <div class="area-box" onclick="openScheduleModal()">
+                        <strong>Desa Cimara</strong>
+                        <span>Khusus Hari Minggu</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 4: KATALOG HARGA & KALKULATOR SIMULASI -->
+        <section id="harga" class="section-block">
+            <div class="section-header-split">
+                <div>
+                    <div class="section-label"><span class="dot-green"></span> Jenis & harga</div>
+                    <h2 class="section-title">Pilih jenis <span class="serif-italic">sampahmu</span></h2>
+                </div>
+                <p class="section-subnote">Harga contoh per kilogram, diperbarui tiap Senin.</p>
+            </div>
+
+            <!-- Toolbar Filter Kategori & Pencarian -->
+            <div class="catalog-toolbar">
+                <div class="filter-pills" role="tablist">
+                    <button type="button" class="filter-btn active" onclick="filterCatalog('semua', this)">Semua</button>
+                    <button type="button" class="filter-btn" onclick="filterCatalog('Plastik', this)">Plastik</button>
+                    <button type="button" class="filter-btn" onclick="filterCatalog('Kertas', this)">Kertas / Kardus</button>
+                    <button type="button" class="filter-btn" onclick="filterCatalog('Logam', this)">Logam</button>
+                    <button type="button" class="filter-btn" onclick="filterCatalog('Minyak jelantah', this)">Minyak Jelantah</button>
+                </div>
+
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="search" id="searchInput" class="search-input" placeholder="Cari jenis sampah (misal: botol, kardus)..." oninput="renderCatalog()">
+                </div>
+            </div>
+
+            <!-- Tempat 6 Kartu Katalog Dirender oleh JavaScript -->
+            <div class="catalog-grid" id="catalogGrid"></div>
+
+            <!-- Bar Kalkulator Simulasi Tabungan -->
+            <div class="calc-dock">
+                <div class="calc-info">
+                    <div class="calc-badge">Rp</div>
+                    <div>
+                        <small id="calcSummaryText">Simulasi Tabungan Sampahmu (0 kg / liter dipilih)</small>
+                        <strong id="calcTotalValue">Rp 0</strong>
+                    </div>
+                </div>
+                <div class="calc-actions">
+                    <button type="button" class="btn-reset-calc" onclick="resetCalculator()">Reset Hitungan</button>
+                    <button type="button" class="btn-lime-pill" onclick="applyCalcToForm()">
+                        Lanjut Jual & Minta Jemput <span class="dark-circle-arrow">↗</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 5: FORMULIR PENJEMPUTAN -->
+        <section id="jemput" class="section-block">
+            <div class="section-header-split">
+                <div>
+                    <div class="section-label"><span class="dot-green"></span> Permintaan jemput</div>
+                    <h2 class="section-title">Jual & <span class="serif-italic">minta jemput</span></h2>
+                </div>
+                <div>
+                    <p class="section-subnote">Operasional: 10.00 – 16.00 WIB (Batas Edit/Batal 3 jam sebelum sesi).</p>
+                    <button type="button" class="btn-outline-history" onclick="openHistoryDrawer()">
+                        📋 Lihat Riwayat Penjemputan <span class="badge-count hidden" id="formHistoryCount">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <form id="pickupForm" onsubmit="handleFormSubmit(event)">
+                    <!-- Baris 1: Nama & WhatsApp -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="fNama">Nama lengkap</label>
+                            <input type="text" id="fNama" placeholder="Masukkan nama lengkap" required onfocus="requireAuthForForm(event)">
+                        </div>
+                        <div class="form-group">
+                            <label for="fWa">Nomor WhatsApp</label>
+                            <input type="tel" id="fWa" placeholder="08xxxxxxxxxx" required onfocus="requireAuthForForm(event)">
+                        </div>
+                    </div>
+
+                    <!-- Baris 2: Alamat Lengkap -->
+                    <div class="form-group">
+                        <label for="fAlamat">Alamat penjemputan lengkap</label>
+                        <textarea id="fAlamat" rows="3" placeholder="Tuliskan jalan, nomor rumah, RT/RW, atau patokan rumah..." required onfocus="requireAuthForForm(event)"></textarea>
+                    </div>
+
+                    <!-- Baris 3: Pilihan Desa (Kec. Pasawahan) & Jenis Sampah -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="fDesa">Desa (Area Kec. Pasawahan)</label>
+                            <select id="fDesa" onchange="updateVillageRuleBanner()" onfocus="requireAuthForForm(event)">
+                                <optgroup label="Senin & Selasa">
+                                    <option value="Paniis">Desa Paniis (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Cibuntu">Desa Cibuntu (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Cirea">Desa Cirea (Siang 13.00–16.00 | Batas 10.00)</option>
+                                </optgroup>
+                                <optgroup label="Rabu & Kamis">
+                                    <option value="Singkup">Desa Singkup (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Pasawahan">Desa Pasawahan (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Padamatang">Desa Padamatang (Siang 13.00–16.00 | Batas 10.00)</option>
+                                </optgroup>
+                                <optgroup label="Jumat & Sabtu">
+                                    <option value="Ciwiru">Desa Ciwiru (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Kaduela">Desa Kaduela (Pagi 10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Cidahu">Desa Cidahu (Siang 13.00–16.00 | Batas 10.00)</option>
+                                </optgroup>
+                                <optgroup label="Minggu">
+                                    <option value="Cimara (Sesi Pagi)">Desa Cimara - Sesi Pagi (10.00–13.00 | Batas 07.00)</option>
+                                    <option value="Cimara (Sesi Siang)">Desa Cimara - Sesi Siang (13.00–16.00 | Batas 10.00)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fJenis">Jenis sampah dominan</label>
+                            <select id="fJenis" onfocus="requireAuthForForm(event)">
+                                <option value="Plastik">Plastik</option>
+                                <option value="Kertas">Kertas / Kardus</option>
+                                <option value="Logam">Logam</option>
+                                <option value="Minyak jelantah">Minyak jelantah</option>
+                                <option value="Campuran Terpilah">Campuran Terpilah</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Kotak Info Otomatis Sesuai Desa yang Dipilih -->
+                    <div class="village-rule-callout" id="villageRuleBanner">
+                        <strong>📌 Info Jadwal Desa Paniis:</strong> Hari <strong>Senin & Selasa</strong> pukul <strong>10.00 – 13.00 WIB (Sesi Pagi)</strong>. Warga dapat input/edit/batal (CRUD) dari pagi hingga <strong>paling lambat pukul 07.00 WIB</strong> (3 jam sebelum penjemputan).
+                    </div>
+
+                    <!-- Baris 4: Berat & Tanggal -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="fBerat">Perkiraan berat (kg / liter)</label>
+                            <input type="number" id="fBerat" min="3" value="5" required onfocus="requireAuthForForm(event)">
+                        </div>
+                        <div class="form-group">
+                            <label for="fTanggal">Tanggal jemput</label>
+                            <input type="date" id="fTanggal" required onfocus="requireAuthForForm(event)">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-full">
+                        Kirim permintaan <span class="dark-circle-arrow">↗</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =======================================================================
+         3. FOOTER
+         ======================================================================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 PilahSampah — Portal Informasi & Jemput Bank Sampah Kecamatan Pasawahan.</p>
+        </div>
+    </footer>
+
+    <!-- =======================================================================
+         4. MODAL POP-UP: LOGIN, BUAT AKUN BARU, & LUPA PASSWORD
+            (Sesuai Desain Gambar Mockup Bank Sampah & Tanpa Panah Biru)
+         ======================================================================= -->
+    <div class="modal-backdrop" id="authModal">
+        <div class="auth-mockup-card">
+            <!-- Tombol Tutup Modal -->
+            <button type="button" class="auth-close-x" onclick="closeAuthModal()" aria-label="Tutup">✕</button>
+
+            <!-- Baris Header Kartu: Logo Bank Sampah Kiri & Pill Go Green Kanan -->
+            <div class="auth-card-topbar">
+                <div class="auth-brand-group">
+                    <div class="auth-recycle-logo" aria-hidden="true">♻️</div>
+                    <div>
+                        <strong class="auth-brand-title">Bank Sampah</strong>
+                        <span class="auth-brand-sub">Kecamatan Pasawahan</span>
+                    </div>
+                </div>
+                <span class="go-green-pill">🍃 Go Green</span>
+            </div>
+
+            <!-- Pesan Peringatan Jika Klik Riwayat / Form Saat Belum Login -->
+            <div class="auth-guard-notice hidden" id="authGuardNotice">
+                🔒 Silakan login terlebih dahulu untuk mengakses fitur ini.
+            </div>
+
+            <!-- ===============================================================
+                 PANEL 1: SELAMAT DATANG (LOGIN)
+                 =============================================================== -->
+            <div id="panelLogin">
+                <div class="auth-hero-row">
+                    <div class="auth-hero-text">
+                        <h2>Selamat Datang!</h2>
+                        <p>Kelola sampah, wujudkan lingkungan lebih bersih bersama kami.</p>
+                    </div>
+                    <!-- Ilustrasi Tong Sampah Hijau Daur Ulang -->
+                    <div class="auth-illustration" aria-hidden="true">
+                        <svg viewBox="0 0 120 110" width="105" height="96">
+                            <circle cx="62" cy="54" r="44" fill="#E3F4E8"/>
+                            <path d="M22 86 Q60 76 102 86" stroke="#7BC68D" stroke-width="4" fill="none"/>
+                            <!-- Daun Kiri & Kanan -->
+                            <path d="M28 84 C16 70, 18 54, 34 62 C36 70, 32 78, 28 84 Z" fill="#4CAF50"/>
+                            <path d="M92 84 C106 70, 104 52, 86 62 C84 70, 88 78, 92 84 Z" fill="#2E7D32"/>
+                            <!-- Badan Tong Sampah Hijau -->
+                            <rect x="38" y="30" width="44" height="54" rx="5" fill="#2E7D32"/>
+                            <rect x="34" y="22" width="52" height="9" rx="4" fill="#43A047"/>
+                            <rect x="50" y="17" width="20" height="6" rx="2" fill="#2E7D32"/>
+                            <!-- Simbol Recycle Putih -->
+                            <text x="60" y="66" text-anchor="middle" font-size="24" fill="#FFFFFF">♻</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Pintasan Akun Demo untuk Presentasi -->
+                <div class="demo-account-strip">
+                    <span>Demo Cepat:</span>
+                    <button type="button" onclick="quickLoginAs('iisayffiy', '081234567890')">👤 iisayffiy</button>
+                    <button type="button" onclick="quickLoginAs('Budi Santoso', '081398765432')">👤 Budi Santoso</button>
+                </div>
+
+                <form onsubmit="submitLogin(event)">
+                    <!-- Input Email / Username -->
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">✉️</span>
+                        <input type="text" id="loginUser" placeholder="Email / Username" value="iisayffiy" required>
+                    </div>
+
+                    <!-- Input Password + Toggle Mata -->
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">🔒</span>
+                        <input type="password" id="loginPass" placeholder="Password" value="123456" required>
+                        <button type="button" class="m-eye-btn" onclick="togglePasswordVisibility('loginPass')" aria-label="Tampilkan Sandi">👁️</button>
+                    </div>
+
+                    <!-- Baris Ingat Saya & Lupa Password -->
+                    <div class="auth-options-row">
+                        <label class="remember-check">
+                            <input type="checkbox" checked>
+                            <span>Ingat saya</span>
+                        </label>
+                        <button type="button" class="forgot-link-btn" onclick="switchAuthTab('forgot')">Lupa password?</button>
+                    </div>
+
+                    <!-- Tombol Login Hijau Gradasi (Tanpa Panah) -->
+                    <button type="submit" class="btn-mockup-gradient">
+                        Login
+                    </button>
+                </form>
+
+                <div class="auth-divider"><span>Belum punya akun?</span></div>
+
+                <button type="button" class="btn-mockup-outline" onclick="switchAuthTab('signup')">
+                    👤+ Daftar Sekarang
+                </button>
+            </div>
+
+            <!-- ===============================================================
+                 PANEL 2: BUAT AKUN BARU (SIGN UP)
+                 =============================================================== -->
+            <div id="panelSignup" class="hidden">
+                <div class="auth-hero-row">
+                    <div class="auth-hero-text">
+                        <h2>Buat Akun Baru</h2>
+                        <p>Bergabunglah bersama kami demi lingkungan yang lebih baik.</p>
+                    </div>
+                    <!-- Ilustrasi 3 Tong Sampah (Hijau, Kuning, Biru) -->
+                    <div class="auth-illustration" aria-hidden="true">
+                        <svg viewBox="0 0 130 110" width="112" height="96">
+                            <circle cx="65" cy="52" r="42" fill="#E3F4E8"/>
+                            <!-- Tong Hijau -->
+                            <rect x="20" y="42" width="26" height="40" rx="4" fill="#43A047"/>
+                            <rect x="18" y="36" width="30" height="6" rx="2" fill="#2E7D32"/>
+                            <text x="33" y="67" text-anchor="middle" font-size="14" fill="#FFFFFF">♻</text>
+                            <!-- Tong Kuning -->
+                            <rect x="52" y="38" width="26" height="44" rx="4" fill="#FBC02D"/>
+                            <rect x="50" y="32" width="30" height="6" rx="2" fill="#F57F17"/>
+                            <text x="65" y="65" text-anchor="middle" font-size="14" fill="#FFFFFF">♻</text>
+                            <!-- Tong Biru -->
+                            <rect x="84" y="42" width="26" height="40" rx="4" fill="#1E88E5"/>
+                            <rect x="82" y="36" width="30" height="6" rx="2" fill="#1565C0"/>
+                            <text x="97" y="67" text-anchor="middle" font-size="14" fill="#FFFFFF">♻</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <form onsubmit="submitSignup(event)">
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">👤</span>
+                        <input type="text" id="regUser" placeholder="Username / Nama Lengkap" required>
+                    </div>
+
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">✉️</span>
+                        <input type="text" id="regWa" placeholder="Email Address / Nomor WhatsApp" required>
+                    </div>
+
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">🔒</span>
+                        <input type="password" id="regPass" placeholder="Password" required>
+                        <button type="button" class="m-eye-btn" onclick="togglePasswordVisibility('regPass')">👁️</button>
+                    </div>
+
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">🔒</span>
+                        <input type="password" id="regConfirmPass" placeholder="Konfirmasi Password" required>
+                        <button type="button" class="m-eye-btn" onclick="togglePasswordVisibility('regConfirmPass')">👁️</button>
+                    </div>
+
+                    <button type="submit" class="btn-mockup-gradient">
+                        👤+ Sign Up
+                    </button>
+                </form>
+
+                <div class="auth-bottom-switch">
+                    Sudah punya akun? <button type="button" onclick="switchAuthTab('login')">Login</button>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 PANEL 3: LUPA PASSWORD
+                 =============================================================== -->
+            <div id="panelForgot" class="hidden">
+                <div class="auth-hero-row">
+                    <div class="auth-hero-text">
+                        <h2>Atur Ulang Sandi</h2>
+                        <p>Masukkan username akun Anda dan buat password baru.</p>
+                    </div>
+                </div>
+
+                <form onsubmit="submitForgot(event)">
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">✉️</span>
+                        <input type="text" id="forgotUser" placeholder="Email / Username Terdaftar" required>
+                    </div>
+
+                    <div class="mockup-input-pill">
+                        <span class="m-icon" aria-hidden="true">🔒</span>
+                        <input type="password" id="forgotNewPass" placeholder="Password Baru" required>
+                        <button type="button" class="m-eye-btn" onclick="togglePasswordVisibility('forgotNewPass')">👁️</button>
+                    </div>
+
+                    <button type="submit" class="btn-mockup-gradient">
+                        Simpan Password Baru
+                    </button>
+                </form>
+
+                <div class="auth-bottom-switch">
+                    Ingat password Anda? <button type="button" onclick="switchAuthTab('login')">Kembali ke Login</button>
+                </div>
+            </div>
+
+            <!-- Dekorasi Bukit Hijau & Siluet Rumah di Kaki Kartu sesuai Mockup -->
+            <div class="auth-hills-footer" aria-hidden="true">
+                <svg viewBox="0 0 500 55" preserveAspectRatio="none">
+                    <path d="M0 55 L0 28 Q110 4 240 32 T500 20 L500 55 Z" fill="#D8F0DC"/>
+                    <path d="M0 55 L0 38 Q160 18 320 40 T500 30 L500 55 Z" fill="#BCE5C4"/>
+                    <path d="M0 55 L0 46 Q210 30 400 48 T500 40 L500 55 Z" fill="#8CD19B"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         5. MODAL POP-UP: INFO JAM & DESA
+         ======================================================================= -->
+    <div class="modal-backdrop" id="scheduleModal">
+        <div class="modal-box modal-lg">
+            <div class="modal-top-bar">
+                <div>
+                    <span class="modal-eyebrow">PANDUAN JADWAL KEC. PASAWAHAN</span>
+                    <h3>Jam Operasional & Aturan Batas 3 Jam</h3>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeScheduleModal()">✕ Tutup</button>
+            </div>
+
+            <div class="modal-body-scroll">
+                <p class="modal-intro">
+                    Armada Bank Sampah menjemput mulai pukul <strong>10.00 hingga 16.00 WIB</strong>. Warga bebas mengubah atau membatalkan (CRUD) jadwal selama masih <strong>lebih dari 3 jam sebelum sesi dimulai</strong>:
+                </p>
+
+                <div class="session-cards-grid">
+                    <div class="session-card">
+                        <div class="session-card-head">
+                            <span class="session-tag morning">☀️ Sesi Pagi</span>
+                            <strong>10.00 – 13.00 WIB</strong>
+                        </div>
+                        <p>Warga dapat menginput, mengubah, atau membatalkan jadwal dari pagi hingga <strong>paling lambat pukul 07.00 WIB</strong>.</p>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-card-head">
+                            <span class="session-tag afternoon">🌤️ Sesi Siang</span>
+                            <strong>13.00 – 16.00 WIB</strong>
+                        </div>
+                        <p>Warga dapat menginput, mengubah, atau membatalkan jadwal dari pagi hingga <strong>paling lambat pukul 10.00 WIB</strong>.</p>
+                    </div>
+                </div>
+
+                <h4 class="modal-subtitle">Daftar Hari & Desa (Klik nama desa untuk memilih langsung ke Form)</h4>
+
+                <div class="day-groups-grid">
+                    <div class="day-group-card">
+                        <div class="day-head">
+                            <span class="day-badge">SENIN & SELASA</span>
+                            <small>3 Desa</small>
+                        </div>
+                        <div class="village-chips">
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Paniis')">
+                                <strong>Desa Paniis</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Cibuntu')">
+                                <strong>Desa Cibuntu</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Cirea')">
+                                <strong>Desa Cirea</strong> <span>Siang (13.00–16.00) • Batas 10.00</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="day-group-card">
+                        <div class="day-head">
+                            <span class="day-badge">RABU & KAMIS</span>
+                            <small>3 Desa</small>
+                        </div>
+                        <div class="village-chips">
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Singkup')">
+                                <strong>Desa Singkup</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Pasawahan')">
+                                <strong>Desa Pasawahan</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Padamatang')">
+                                <strong>Desa Padamatang</strong> <span>Siang (13.00–16.00) • Batas 10.00</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="day-group-card">
+                        <div class="day-head">
+                            <span class="day-badge">JUMAT & SABTU</span>
+                            <small>3 Desa</small>
+                        </div>
+                        <div class="village-chips">
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Ciwiru')">
+                                <strong>Desa Ciwiru</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Kaduela')">
+                                <strong>Desa Kaduela</strong> <span>Pagi (10.00–13.00) • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Cidahu')">
+                                <strong>Desa Cidahu</strong> <span>Siang (13.00–16.00) • Batas 10.00</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="day-group-card">
+                        <div class="day-head">
+                            <span class="day-badge">KHUSUS MINGGU</span>
+                            <small>1 Desa (2 Sesi)</small>
+                        </div>
+                        <div class="village-chips">
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Cimara (Sesi Pagi)')">
+                                <strong>Desa Cimara (Sesi Pagi)</strong> <span>10.00–13.00 • Batas 07.00</span>
+                            </button>
+                            <button type="button" class="v-chip" onclick="selectVillageFromModal('Cimara (Sesi Siang)')">
+                                <strong>Desa Cimara (Sesi Siang)</strong> <span>13.00–16.00 • Batas 10.00</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         6. MODAL POP-UP: KONFIRMASI PERMINTAAN JEMPUT TERJADWAL
+         ======================================================================= -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-box modal-sm">
+            <div class="modal-top-bar">
+                <div>
+                    <span class="modal-eyebrow">BERHASIL TERJADWAL</span>
+                    <h3>Permintaan Jemput Terjadwal!</h3>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeSuccessModal()">✕</button>
+            </div>
+            <div class="modal-body-scroll">
+                <p class="modal-intro">
+                    Data Anda telah masuk ke antrean rute petugas Bank Sampah kami.
+                </p>
+                <div class="history-body" id="successSummaryBox" style="margin-bottom:18px;"></div>
+                <button type="button" class="btn-submit-full" onclick="finishSuccessAndOpenHistory()">
+                    Selesai & Lihat Riwayat Penjemputan ↗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         7. MODAL POP-UP: RIWAYAT PENJEMPUTAN & CRUD (TERPISAH PER AKUN)
+         ======================================================================= -->
+    <div class="modal-backdrop" id="historyModal">
+        <div class="modal-box modal-lg">
+            <div class="modal-top-bar">
+                <div>
+                    <span class="modal-eyebrow" id="historyUserEyebrow">ATURAN 3 JAM SEBELUM JEMPUT</span>
+                    <h3>Riwayat & Kelola Penjemputan Anda (CRUD)</h3>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeHistoryDrawer()">✕ Tutup</button>
+            </div>
+            <div class="modal-body-scroll">
+                <div class="history-grid" id="historyListContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         8. MODAL POP-UP: EDIT DATA RIWAYAT (UPDATE CRUD)
+         ======================================================================= -->
+    <div class="modal-backdrop" id="editModal">
+        <div class="modal-box modal-sm">
+            <div class="modal-top-bar">
+                <div>
+                    <span class="modal-eyebrow">UBAH DATA PENJEMPUTAN</span>
+                    <h3>Edit Permintaan Jemput</h3>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeEditModal()">✕</button>
+            </div>
+            <div class="modal-body-scroll">
+                <form id="editForm" onsubmit="saveEditedItem(event)">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="editNama" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Desa (Kec. Pasawahan)</label>
+                        <select id="editDesa">
+                            <option value="Paniis">Desa Paniis (Pagi 10.00–13.00)</option>
+                            <option value="Cibuntu">Desa Cibuntu (Pagi 10.00–13.00)</option>
+                            <option value="Cirea">Desa Cirea (Siang 13.00–16.00)</option>
+                            <option value="Singkup">Desa Singkup (Pagi 10.00–13.00)</option>
+                            <option value="Pasawahan">Desa Pasawahan (Pagi 10.00–13.00)</option>
+                            <option value="Padamatang">Desa Padamatang (Siang 13.00–16.00)</option>
+                            <option value="Ciwiru">Desa Ciwiru (Pagi 10.00–13.00)</option>
+                            <option value="Kaduela">Desa Kaduela (Pagi 10.00–13.00)</option>
+                            <option value="Cidahu">Desa Cidahu (Siang 13.00–16.00)</option>
+                            <option value="Cimara (Sesi Pagi)">Desa Cimara (Sesi Pagi)</option>
+                            <option value="Cimara (Sesi Siang)">Desa Cimara (Sesi Siang)</option>
+                        </select>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label>Jenis Sampah</label>
+                            <select id="editJenis">
+                                <option value="Plastik">Plastik</option>
+                                <option value="Kertas">Kertas / Kardus</option>
+                                <option value="Logam">Logam</option>
+                                <option value="Minyak jelantah">Minyak jelantah</option>
+                                <option value="Campuran Terpilah">Campuran Terpilah</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Berat (Kg / Liter)</label>
+                            <input type="number" id="editBerat" min="3" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Lengkap</label>
+                        <textarea id="editAlamat" rows="2" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-full">Simpan Perubahan ↗</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menghubungkan ke file JavaScript eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>
